@@ -1,20 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
+import {  DM_Serif_Display, Inter_Tight  } from "next/font/google";
 import "./globals.css";
 import {Header} from "@/components/header";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { Toaster } from "react-hot-toast";
+import {HearderMsg} from "@/components/hearderMsg";
 
-const jetbrainsMono = JetBrains_Mono({subsets:['latin'],variable:'--font-mono'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const interTight = Inter_Tight({
   subsets: ["latin"],
+  variable: "--font-inter-tight",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+
+const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
+  weight: "400",
+  variable: "--font-serif",
 });
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -25,9 +29,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-mono", jetbrainsMono.variable)}
+      className={cn("h-full", "antialiased",interTight.variable,dmSerif.variable)}
     >
-      <body className="min-h-full flex flex-col relative bg-[#ffffff]">
+      <body className="min-h-full flex flex-col relative bg-[#ffffff] font-inter-tight">
+        <Toaster></Toaster>
+        <HearderMsg></HearderMsg>
         <Header></Header>
         <main className="relative">{children}</main>
       </body>
