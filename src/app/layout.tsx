@@ -3,7 +3,6 @@ import {  DM_Serif_Display, Inter_Tight  } from "next/font/google";
 import "./globals.css";
 import {Header} from "@/components/header";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { Toaster } from "react-hot-toast";
 import {HearderMsg} from "@/components/hearderMsg";
 
