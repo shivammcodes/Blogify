@@ -13,7 +13,7 @@ export const Header = async() => {
           <Link href={'/'}><Button variant={"secondary"} size={"lg"} className={"rounded-2xl px-4 text-sm py-4"}>Blogs</Button></Link>
           <Link href={'/'}><Button variant={"secondary"} size={"lg"} className={"rounded-2xl px-4 text-sm py-4"}>About</Button></Link>
         </div>
-        <div className="auth flex gap-x-5">
+        <div className="auth flex gap-x-5 items-center">
           {
           user ? (
             <>
