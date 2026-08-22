@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
-import {  DM_Serif_Display, Inter_Tight  } from "next/font/google";
+import {  DM_Serif_Display,Inter} from "next/font/google";
 import "./globals.css";
 import {Header} from "@/components/header";
 import { cn } from "@/lib/utils";
 import { Toaster } from "react-hot-toast";
 import {HearderMsg} from "@/components/hearderMsg";
 
-const interTight = Inter_Tight({
-  subsets: ["latin"],
-  variable: "--font-inter-tight",
-});
+// const interTight = Inter_Tight({
+//   subsets: ["latin"],
+//   variable: "--font-inter-tight",
+// });
 
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
 
 const dmSerif = DM_Serif_Display({
   subsets: ["latin"],
@@ -28,9 +33,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased",interTight.variable,dmSerif.variable)}
+      className={cn("h-full", "antialiased",inter.variable,dmSerif.variable)}
     >
-      <body className="min-h-full flex flex-col relative bg-[#ffffff] font-inter-tight">
+      <body className="min-h-full flex flex-col relative bg-[#ffffff] font-inter">
         <Toaster></Toaster>
         <HearderMsg></HearderMsg>
         <Header></Header>
