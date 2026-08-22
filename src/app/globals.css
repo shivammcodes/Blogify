@@ -6,6 +6,7 @@
 @theme inline {
   --font-inter-tight: var(--font-inter-tight);
   --font-display: var(--font-serif);
+  --font-inter: var(--font-inter);
 }
 
 @custom-variant dark (&:is(.dark *));
