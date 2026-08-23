@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label"
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 const page = () => {
+  const [username,setUsername]=useState<string>("");
   const [email,setEmail]=useState<string>("");
   const [password,setPassword]=useState<string>("");
   const [loading,setLoading]=useState<boolean>(false);
@@ -28,7 +29,7 @@ const page = () => {
       const response=await fetch("/api/user/signup",{
         method: "POST",
         headers:{"content-type": "application/json"},
-        body:JSON.stringify({email,password})
+        body:JSON.stringify({email,password,username})
       })
       const data=await response.json();
       console.log(data);
@@ -63,6 +64,18 @@ const page = () => {
       <CardContent>
         <form>
           <div className="flex flex-col gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Username</Label>
+              <Input
+                value={username}
+                onChange={(e)=>setUsername(e.target.value)}
+                id="email"
+                type="email"
+                placeholder="John Doe"
+                required
+                className='border-black rounded-sm'
+              />
+            </div>
             <div className="grid gap-2">
               <Label htmlFor="email">Email</Label>
               <Input

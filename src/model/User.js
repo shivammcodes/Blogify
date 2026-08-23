@@ -9,6 +9,11 @@ const UserSchema=new Schema({
     password:{
         type: String,
         required: true,
+    },
+    username:{
+        type: String,
+        default: null,
+        trim: true
     }
 },{timestamps: true})
 

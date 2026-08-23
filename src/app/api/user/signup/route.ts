@@ -10,10 +10,10 @@ export async function POST(request : NextRequest){
         // this is the way to destructure the data from the request
         const reqBody=await request.json();
 
-        const{email,password}=reqBody;
+        const{email,password,username}=reqBody;
 
         // check if the data is present there or not
-        if(!email || !password) return NextResponse.json({error:["Both the email and password are required"]},{status:400});
+        if(!email || !password || !username) return NextResponse.json({error:["Every field is required"]},{status:400});
 
         // if email and password is there we has the password before saving it to the database
         const saltrounds=10;
@@ -22,7 +22,8 @@ export async function POST(request : NextRequest){
         // now we can create a user on the database
         const user=await User.create({
             email,
-            password:hashedPassword
+            password:hashedPassword,
+            username
         })
 
         return NextResponse.json({msg:["User successfully created"],userData:{email:user.email,_id:user._id}},{status:201});
