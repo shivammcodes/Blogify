@@ -16,8 +16,9 @@ export const Header = async() => {
         <div className="auth flex gap-x-5 items-center">
           {
           user ? (
-            <>
-                 <Button variant={"secondary"} size={"lg"} className={"rounded-2xl px-4 text-sm py-4 flex items-center justify-center"}>Welcome, {user.email}</Button>
+            <>   
+                <Link href={'/create'} className="flex items-center justify-center "><Button variant={"secondary"} size={"lg"} className={"rounded-2xl px-4 text-sm py-4"}>Create Post</Button></Link>
+                 <Button variant={"secondary"} size={"lg"} className={"rounded-2xl hover:bg-transparent px-4 text-sm py-4 flex items-center justify-center"}>Welcome, {user.username.split(' ')[0]}</Button>
                  <LogoutBtn></LogoutBtn>
             </>
           ) : (

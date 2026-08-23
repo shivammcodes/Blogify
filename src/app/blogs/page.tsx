@@ -1,26 +1,15 @@
-import img from '../../public/hero.png';
-import img1 from '../../public/img1.png';
+import img1 from '../../../public/img1.png';
 import Image from 'next/image';
 import Search from '@/components/search';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+
+
 const page = () => {
   return (
-    <div className='wrapper w-full min-h-screen relative pb-56 pt-44 px-36'>
-      <div className="top h-fit grid-cols-2 flex justify-between gap-x-40">
-        <div className="left col-span-1 w-full">
-          <div className="blog w-fit h-fit  px-3 text-sm py-2 rounded-full bg-secondary">THE BLOG</div>
-          <div className="title text-4xl mt-5 mb-6 w-3/4 tracking-wide leading-snug font-medium">Live in Kota: Salary sacrifice schemes your employees value, run from one place</div>
-          <div className="date mb-8">August 20, 2026</div>
-          <Button className="gotobtn w-fit h-fit px-5 text-sm py-3 rounded-lg border-black/30 text-black/50" variant={"secondary"}><Link href={'/'}>Read blog -</Link></Button>
-
-        </div>  
-        <div className="right col-span-1 w-full flex items-center justify-center rounded-lg"><Image className='rounded-lg w-full h-full object-cover' src={img} alt=''></Image></div>
-      </div>
-       {/* blog section */}
-
+    <div className='wrapper w-full min-h-screen relative pb-44 pt-16 px-36'>
         <div className="blog-header mt-36 flex items-center justify-between mb-16">
-          <div className="title text-4xl">Latest blogs</div>
+          <div className="title text-4xl">All blogs</div>
           <div className="search"><Search></Search></div>
         </div>
 
@@ -86,7 +75,54 @@ const page = () => {
             <div className="date text-gray-900/60">July 31, 2026</div>
           </div>
 
-          <Button className="absolute left-1/2 -bottom-24 -translate-x-1/2 px-7 rounded-xl text-lg py-6 bg-transparent border-black/30 text-black/50" variant={'secondary'}><Link href={'/blogs'}>Read all</Link></Button>
+         
+        </div>
+
+
+        {/* Section 4 */}
+
+        <div className="wrapper grid grid-cols-3 mt-20 gap-14">
+            <div className="box col-span-1 w-full h-fit">
+                <Image src={img1} className='w-full max-h-46 rounded-xl' alt=''></Image>
+                <div className="title pt-4 mb-1 text-xl">Medicash Health Cash Plan Review 2026</div>
+                <div className="date">July 31, 2026</div>
+            </div>
+            
+
+            <div className="box col-span-1 w-full h-fit">
+                <Image src={img1} className='w-full max-h-46 rounded-xl' alt=''></Image>
+                <div className="title pt-4 mb-1 text-xl">Employer’s Guide 2026: How Much Do Employee Benefits Cost in the UK?</div>
+                <div className="date">July 31, 2026</div>
+            </div>
+
+            <div className="box col-span-1 w-full h-fit">
+                <Image src={img1} className='w-full max-h-46 rounded-xl' alt=''></Image>
+                <div className="title pt-4 mb-1 text-xl">Medicash Health Cash Plan Review 2026</div>
+                <div className="date">July 31, 2026</div>
+            </div>
+
+            <div className="box col-span-1 w-full h-fit">
+                <Image src={img1} className='w-full max-h-46 rounded-xl' alt=''></Image>
+                <div className="title pt-4 mb-1 text-xl">Medicash Health Cash Plan Review 2026</div>
+                <div className="date">July 31, 2026</div>
+            </div>
+
+
+            <div className="box col-span-1 w-full h-fit">
+                <Image src={img1} className='w-full max-h-46 rounded-xl' alt=''></Image>
+                <div className="title pt-4 mb-1 text-xl">Medicash Health Cash Plan Review 2026</div>
+                <div className="date">July 31, 2026</div>
+            </div>
+
+
+
+            <div className="box col-span-1 w-full h-fit">
+                <Image src={img1} className='w-full max-h-46 rounded-xl' alt=''></Image>
+                <div className="title pt-4 mb-1 text-xl">Medicash Health Cash Plan Review 2026</div>
+                <div className="date">July 31, 2026</div>
+            </div>
+             <Button className="absolute left-1/2 bottom-10 -translate-x-1/2 px-7 rounded-xl text-lg py-6 bg-transparent border-black/30 text-black/50" variant={'secondary'}><Link href={'/'}>Load More</Link></Button>
+
         </div>
     </div>
   )
