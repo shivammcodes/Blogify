@@ -1,10 +1,12 @@
 "use client";
-
+import PublishLoader from "@/components/PublishLoader";
 import { useState } from "react";
 import TipTap from "@/components/editor/TipTap";
-
+import toast from "react-hot-toast";
 const CreatePost = () => {
+  const [loading,setLoading]=useState<boolean>(false);
   const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
 
   function handleCoverImage(e: React.ChangeEvent<HTMLInputElement>) {
@@ -15,7 +17,51 @@ const CreatePost = () => {
     setCoverImage(file);
   }
 
+
+  async function handlePublish() {
+  try {
+    // Make sure all fields are present
+    if (!title || !content || !coverImage) {
+      toast.error("Please fill all the fields");
+      return;
+    }
+
+    setLoading(true);
+
+    // Create FormData
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("content", content);
+    formData.append("coverImage", coverImage);
+
+    // Send to backend
+    const response = await fetch("/api/posts/create", {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      toast.error(data.error?.[0] || "Failed to create post");
+      return;
+    }
+
+    toast.success(data.msg?.[0] || "Post created successfully");
+
+  } catch (error) {
+    console.log("Publish post failed:", error);
+    toast.error("Something went wrong");
+  }
+  finally{
+    setLoading(false);
+  }
+}
+
   return (
+    <>
+      {loading && <PublishLoader/>}
     <main className="min-h-screen bg-gray-50 px-6 py-32">
       <div className="mx-auto max-w-5xl">
 
@@ -115,8 +161,7 @@ const CreatePost = () => {
           <label className="mb-3 block text-sm font-medium">
             Content
           </label>
-
-          <TipTap />
+          <TipTap onChange={setContent} />
         </div>
 
         {/* Buttons */}
@@ -131,6 +176,8 @@ const CreatePost = () => {
 
           <button
             type="button"
+            disabled={loading}
+            onClick={handlePublish}
             className="rounded-lg bg-black px-6 py-3 font-medium text-white hover:bg-gray-800"
           >
             Publish Post
@@ -140,6 +187,7 @@ const CreatePost = () => {
 
       </div>
     </main>
+    </>
   );
 };
 

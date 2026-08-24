@@ -1,7 +1,6 @@
 "use client";
 
 import { useEditor, EditorContent } from "@tiptap/react";
-
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import Link from "@tiptap/extension-link";
@@ -13,13 +12,16 @@ import CharacterCount from "@tiptap/extension-character-count";
 
 import EditorToolbar from "./EditorToolbar";
 
-const TipTap = () => {
+interface TipTapProps {
+  onChange: (content: string) => void;
+}
+
+const TipTap = ({ onChange }: TipTapProps) => {
   const editor = useEditor({
     immediatelyRender: false,
 
     extensions: [
       StarterKit,
-
       Underline,
 
       Link.configure({
@@ -42,6 +44,10 @@ const TipTap = () => {
     ],
 
     content: "",
+
+    onUpdate: ({ editor }) => {
+      onChange(editor.getHTML());
+    },
   });
 
   if (!editor) {
@@ -50,7 +56,6 @@ const TipTap = () => {
 
   return (
     <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
-
       <EditorToolbar editor={editor} />
 
       <EditorContent
@@ -63,7 +68,6 @@ const TipTap = () => {
         {" · "}
         {editor.storage.characterCount.words()} words
       </div>
-
     </div>
   );
 };
