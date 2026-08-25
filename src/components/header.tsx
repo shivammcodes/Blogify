@@ -10,7 +10,7 @@ export const Header = async() => {
         <Link className="text-3xl font-semibold" href={'/'}>Blogify</Link>
         <div className="content  flex gap-x-3 items-center text-lg absolute left-1/2 -translate-x-1/2">
           <Link href={'/'}><Button variant={"secondary"} size={"lg"} className={"rounded-2xl px-4 text-sm py-4"}>Home</Button></Link>
-          <Link href={'/'}><Button variant={"secondary"} size={"lg"} className={"rounded-2xl px-4 text-sm py-4"}>Blogs</Button></Link>
+          <Link href={'/blogs'}><Button variant={"secondary"} size={"lg"} className={"rounded-2xl px-4 text-sm py-4"}>Blogs</Button></Link>
           <Link href={'/'}><Button variant={"secondary"} size={"lg"} className={"rounded-2xl px-4 text-sm py-4"}>About</Button></Link>
         </div>
         <div className="auth flex gap-x-5 items-center">
