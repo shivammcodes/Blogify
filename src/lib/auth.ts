@@ -9,7 +9,7 @@ type userType={
 export async function verifyCurrentUser(){
     try{
         // get the cookie
-        const cookie=await cookies();
+        const cookie=await cookies()
 
         // extract the _id value from it
         const token = cookie.get("token")?.value;
