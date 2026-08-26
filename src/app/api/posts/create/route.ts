@@ -20,10 +20,15 @@ export async function POST(request: NextRequest){
     const title=data.get("title");
     const coverImage=data.get('coverImage');
     const content=data.get("content");
+    const tagsData = data.get("tags");
 
 
     // check if any field is null
     if(!title || !content || !coverImage) return NextResponse.json({error:["All the fields are required"]},{status:400});
+
+    const tags = tagsData
+    ? JSON.parse(tagsData as string)
+    : [];
 
     // make sure that the cover image is in  valid format
     if(!(coverImage instanceof File)) return NextResponse.json({error:["The image format is invalid"]},{status:400});
@@ -59,7 +64,8 @@ export async function POST(request: NextRequest){
         authorId:user._id,
         authorName:user.username,
         content,
-        coverImage:imageUrl 
+        coverImage:imageUrl,
+        tags
     })
 
     // return the response now
