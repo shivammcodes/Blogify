@@ -8,6 +8,8 @@ const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
   const [coverImage, setCoverImage] = useState<File | null>(null);
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
 
   function handleCoverImage(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -16,6 +18,28 @@ const CreatePost = () => {
 
     setCoverImage(file);
   }
+
+  function handleAddTag(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key !== "Enter") return;
+
+    e.preventDefault();
+
+    const tag = tagInput.trim();
+
+    if (!tag) return;
+
+    if (tags.includes(tag)) {
+        toast.error("Tag already added");
+        return;
+    }
+
+    setTags([...tags, tag]);
+    setTagInput("");
+}
+
+function handleRemoveTag(tagToRemove: string) {
+    setTags(tags.filter((tag) => tag !== tagToRemove));
+}
 
 
   async function handlePublish() {
@@ -34,6 +58,7 @@ const CreatePost = () => {
     formData.append("title", title);
     formData.append("content", content);
     formData.append("coverImage", coverImage);
+    formData.append("tags", JSON.stringify(tags));
 
     // Send to backend
     const response = await fetch("/api/posts/create", {
@@ -95,7 +120,49 @@ const CreatePost = () => {
           />
         </div>
 
-        {/* Cover Image */}
+
+
+
+{/* Tags */}
+<div className="mb-6 rounded-xl border bg-white p-6 shadow-sm">
+    <label className="mb-3 block text-sm font-medium">
+        Tags
+    </label>
+
+    {/* Existing tags */}
+    <div className="mb-3 flex flex-wrap gap-2">
+        {tags.map((tag) => (
+            <div
+                key={tag}
+                className="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm"
+            >
+                <span>#{tag}</span>
+
+                <button
+                    type="button"
+                    onClick={() => handleRemoveTag(tag)}
+                    className="text-gray-500 hover:text-red-500"
+                >
+                    ×
+                </button>
+            </div>
+        ))}
+    </div>
+
+    {/* Tag input */}
+    <input
+        type="text"
+        value={tagInput}
+        onChange={(e) => setTagInput(e.target.value)}
+        onKeyDown={handleAddTag}
+        placeholder="Add a tag and press Enter..."
+        className="w-full rounded-lg border px-4 py-3 outline-none focus:ring-2 focus:ring-gray-200"
+    />
+</div>
+
+
+
+
         {/* Cover Image */}
 <div className="mb-6 rounded-xl border bg-white p-6 shadow-sm">
   <label className="mb-3 block text-sm font-medium">
