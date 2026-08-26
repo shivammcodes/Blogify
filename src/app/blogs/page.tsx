@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {format}  from 'date-fns';
+import CommonLoader from '@/components/CommonLoader';
 type postContext={
   _id: string,
   title: string,
@@ -21,8 +22,10 @@ const page = () => {
 
   const [posts,setPosts]=useState<postContext[] | null>(null);
   const [blogDisplayCount,setBlogDisplayCount]=useState<number>(13);
+  const [loading,setLoading]=useState<boolean>(true);
   async function handlerGetPosts(){
     try{
+      setLoading(true);
       const response=await fetch("/api/posts",{
         method: "GET",
       })
@@ -38,6 +41,9 @@ const page = () => {
     catch(error){
       console.log("Cant get the posts :",error);
     }
+    finally{
+      setLoading(false);
+    }
   }
   useEffect(()=>{
     handlerGetPosts();
@@ -49,6 +55,7 @@ const page = () => {
   const thirdSection=posts?.slice(7,blogDisplayCount);
 
 console.log(blogDisplayCount);
+if(loading) return <CommonLoader></CommonLoader>
   return (
     <div className='wrapper w-full min-h-screen relative pb-44 pt-16 px-36'>
         <div className="blog-header mt-36 flex items-center justify-between mb-16">
@@ -64,7 +71,7 @@ console.log(blogDisplayCount);
                     {firstSectionLeft && (
                        <div className="img w-full h-3/4 rounded-2xl"><Image className='object-cover rounded-2xl h-full w-full'width={1200} height={800} src={firstSectionLeft.coverImage} alt=''></Image></div>
                     )}
-                    <div className="title mt-4 text-2xl">{firstSectionLeft?.title}</div>
+                    <Link href={`blogs/${firstSectionLeft?._id}`}><div className="title mt-4 text-2xl">{firstSectionLeft?.title}</div></Link>
                     <div className="date text-lg text-gray-900/60">
                        {firstSectionLeft &&(
                         format(new Date(firstSectionLeft.createdAt), "PPP")
@@ -83,7 +90,7 @@ console.log(blogDisplayCount);
                       <div className="img h-fit w-full rounded-2xl">
                           <Image src={value.coverImage} alt='' width={1200} height={800} className='h-40 object-cover w-full rounded-2xl'></Image>
                       </div>
-                      <div className="title mt-4 mb-1 max-w-10/12 text-xl">{value.title}</div>
+                      <Link href={`blogs/${value._id}`}><div className="title mt-4 mb-1 max-w-10/12 text-xl">{value.title}</div></Link>
                       <div className="date text-gray-900/60">
                         {
                           format(new Date(value.createdAt), "PPP")
@@ -105,7 +112,7 @@ console.log(blogDisplayCount);
             secondSection?.map(value=>(
             <div className="wrapper col-span-1 h-fit rounded-xl" key={value._id}>
             <Image src={value.coverImage} alt='' className='max-h-80 w-full rounded-xl' height={800} width={1200}></Image>
-            <div className="title text-xl mt-4 mb-2">{value.title}</div>
+            <Link href={`/blogs/${value._id}`}><div className="title text-xl mt-4 mb-2">{value.title}</div></Link>
             <div className="date text-gray-900/60">
                 {
                   format(new Date(value.createdAt), "PPP")
@@ -126,7 +133,7 @@ console.log(blogDisplayCount);
             {thirdSection?.map(value=>(
               <div className="box col-span-1 w-full h-fit" key={value._id}>
                 <Image src={value.coverImage} className='w-full max-h-46 rounded-xl' height={800} width={1200} alt=''></Image>
-                <div className="title pt-4 mb-1 text-xl">{value.title}</div>
+                <Link href={`/blogs/${value._id}`}><div className="title pt-4 mb-1 text-xl">{value.title}</div></Link>
                 <div className="date text-gray-900/60">
                   {
                     format(new Date(value.createdAt), "PPP")

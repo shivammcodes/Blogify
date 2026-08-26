@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {format} from 'date-fns';
+import CommonLoader from '@/components/CommonLoader';
 
 type postContext={
   _id: string,
@@ -20,8 +21,10 @@ type postContext={
 }
 const page = () => {
   const [posts,setPosts]=useState<postContext[] | null>(null);
+  const [loading,setLoading]=useState<boolean>(true);
   async function handlerGetPosts(){
     try{
+      setLoading(true);
       const response=await fetch("/api/posts",{
         method: "GET",
       })
@@ -37,6 +40,9 @@ const page = () => {
     catch(error){
       console.log("Cant get the posts :",error);
     }
+    finally{
+      setLoading(false);
+    }
   }
   useEffect(()=>{
     handlerGetPosts();
@@ -46,6 +52,7 @@ const page = () => {
   const secondSectionLeft=posts?.[1];
   const SecondSetionRight=posts?.slice(2,4);
   const thirdSection=posts?.slice(4,8);
+  if(loading) return <CommonLoader></CommonLoader>
   return (
     <div className='wrapper w-full min-h-screen relative pb-56 pt-44 px-36'>
       <div className="top h-fit grid-cols-2 flex justify-between gap-x-40">
@@ -59,7 +66,7 @@ const page = () => {
               )
             }
           </div>
-          <Button className="gotobtn w-fit h-fit px-5 text-sm py-3 rounded-lg border-black/30 text-black/50" variant={"secondary"}><Link href={'/'}>Read blog -</Link></Button>
+          <Button className="gotobtn w-fit h-fit px-5 text-sm py-3 rounded-lg border-black/30 text-black/50" variant={"secondary"}><Link href={`/blogs/${firstSection?._id}`}>Read blog -</Link></Button>
 
         </div>  
         {firstSection &&(
@@ -82,7 +89,7 @@ const page = () => {
             {secondSectionLeft && (
                <div className="img w-full h-3/4 rounded-2xl"><Image className='object-cover rounded-2xl h-full w-full'width={1200} height={800} src={secondSectionLeft?.coverImage} alt=''></Image></div>
             )}
-            <div className="title mt-4 text-2xl">{secondSectionLeft?.title}</div>
+           <Link href={`/blogs/${secondSectionLeft?._id}`}> <div className="title mt-4 text-2xl">{secondSectionLeft?.title}</div></Link>
             <div className="date text-lg text-gray-900/60">
                {
               secondSectionLeft && (
@@ -103,7 +110,7 @@ const page = () => {
               <div className="img h-fit w-full rounded-2xl">
                   <Image src={value.coverImage} alt='' width={1200} height={800} className='h-40 object-cover w-full rounded-2xl'></Image>
               </div>
-              <div className="title mt-4 mb-1 max-w-10/12 text-xl">{value.title}</div>
+              <Link href={`/blogs/${value._id}`}><div className="title mt-4 mb-1 max-w-10/12 text-xl">{value.title}</div></Link>
               <div className="date text-gray-900/60">
                  {
                 format(new Date(value?.createdAt),"PPP")
@@ -123,7 +130,7 @@ const page = () => {
             thirdSection?.map(value=>(
             <div className="wrapper col-span-1 h-fit rounded-xl" key={value._id}>
             <Image src={value.coverImage} alt='' className='max-h-80 w-full rounded-xl' height={800} width={1200}></Image>
-            <div className="title text-xl mt-4 mb-2">{value.title}</div>
+            <Link href={`/blogs/${value._id}`}><div className="title text-xl mt-4 mb-2">{value.title}</div></Link>
             <div className="date text-gray-900/60">
             {
               format(new Date(value.createdAt), "PPP")
