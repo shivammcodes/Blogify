@@ -1,6 +1,4 @@
 "use client"
-import img from '../../public/hero.png';
-import img1 from '../../public/img1.png';
 import Image from 'next/image';
 import Search from '@/components/search';
 import { Button } from '@/components/ui/button';
@@ -9,6 +7,7 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {format} from 'date-fns';
 import CommonLoader from '@/components/CommonLoader';
+import { User,CalendarDays } from 'lucide-react';
 
 type postContext={
   _id: string,
@@ -22,6 +21,8 @@ type postContext={
 const page = () => {
   const [posts,setPosts]=useState<postContext[] | null>(null);
   const [loading,setLoading]=useState<boolean>(true);
+  const [search,setSearch]=useState<string>("");
+  let foundBlog=null;
   async function handlerGetPosts(){
     try{
       setLoading(true);
@@ -52,6 +53,7 @@ const page = () => {
   const secondSectionLeft=posts?.[1];
   const SecondSetionRight=posts?.slice(2,4);
   const thirdSection=posts?.slice(4,8);
+  foundBlog=posts?.filter((value)=>value.title.toLowerCase().includes(search.toLowerCase()));
   if(loading) return <CommonLoader></CommonLoader>
   return (
     <div className='wrapper w-full min-h-screen relative pb-56 pt-44 px-36'>
@@ -77,11 +79,45 @@ const page = () => {
 
         <div className="blog-header mt-36 flex items-center justify-between mb-16">
           <div className="title text-4xl">Latest blogs</div>
-          <div className="search"><Search></Search></div>
+          <div className="search"><Search onSearch={setSearch}></Search></div>
         </div>
 
 
-        {/* section 2 */}
+        {
+          search.length>0 ? (
+          <div className='wrapper w-full'>
+             {
+             foundBlog?.map((value)=>(
+              <div className="blog grid grid-cols-5 h-fit gap-x-20 my-16" key={value._id}>
+                <div className="left col-span-2 bg-sky-200 h-56 rounded-xl">
+                  <Image src={`${value.coverImage}`} alt='' height={800} width={1200} className='w-full h-full object-cover rounded-xl'></Image>
+                </div>
+                <div className="right col-span-3 bg-secondary px-5 py-3 rounded-xl">
+                  <Link href={`/blogs/${value._id}`}><div className="title text-2xl max-w-11/12">{value.title}</div></Link>
+                  <div className="aut-date flex justify-between mt-3">
+                    <div className="author px-3 py-1 bg-secondary rounded-full text-sm flex items-center gap-x-1">
+                        <div className="logo flex justify-center"><User size={".8rem"}></User></div>
+                         {value?.authorName}
+                    </div>
+                    <div className="date px-3 py-1 bg-secondary rounded-full text-sm">
+                         {
+                           value && (
+                          <div className="flex text-sm items-center gap-x-1">
+                          <CalendarDays size={".8rem"} />
+                          {format(new Date(value.createdAt),"PPP")}
+                      </div>
+                    )
+                        }
+                    </div>
+                  </div>
+                </div>
+              </div>
+             ))
+             }
+          </div>
+          ) : (
+            <>
+              {/* section 2 */}
 
         {/* Left */}
         <div className="sec-2 grid grid-cols-6 gap-x-6 w-full h-fit">
@@ -93,7 +129,7 @@ const page = () => {
             <div className="date text-lg text-gray-900/60">
                {
               secondSectionLeft && (
-                format(new Date(secondSectionLeft?.createdAt),"PPP")
+                format(new Date(secondSectionLeft?.createdAt),"PP")
               )
             }
             </div>
@@ -113,7 +149,7 @@ const page = () => {
               <Link href={`/blogs/${value._id}`}><div className="title mt-4 mb-1 max-w-10/12 text-xl">{value.title}</div></Link>
               <div className="date text-gray-900/60">
                  {
-                format(new Date(value?.createdAt),"PPP")
+                format(new Date(value?.createdAt),"PP")
                   }
               </div>
             </div>
@@ -133,7 +169,7 @@ const page = () => {
             <Link href={`/blogs/${value._id}`}><div className="title text-xl mt-4 mb-2">{value.title}</div></Link>
             <div className="date text-gray-900/60">
             {
-              format(new Date(value.createdAt), "PPP")
+              format(new Date(value.createdAt), "PP")
             }
             </div>
           </div>
@@ -142,6 +178,9 @@ const page = () => {
 
           <Button className="absolute left-1/2 -bottom-24 -translate-x-1/2 px-7 rounded-xl text-lg py-6 bg-transparent border-black/30 text-black/50" variant={'secondary'}><Link href={'/blogs'}>Read all</Link></Button>
         </div>
+            </>
+          )
+        }
 
         
     </div>

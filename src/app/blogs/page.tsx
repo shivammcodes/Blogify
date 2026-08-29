@@ -1,5 +1,4 @@
 "use client"
-import img1 from '../../../public/img1.png';
 import Image from 'next/image';
 import Search from '@/components/search';
 import { Button } from '@/components/ui/button';
@@ -8,6 +7,8 @@ import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import {format}  from 'date-fns';
 import CommonLoader from '@/components/CommonLoader';
+import { User,CalendarDays } from 'lucide-react';
+
 type postContext={
   _id: string,
   title: string,
@@ -23,6 +24,7 @@ const page = () => {
   const [posts,setPosts]=useState<postContext[] | null>(null);
   const [blogDisplayCount,setBlogDisplayCount]=useState<number>(13);
   const [loading,setLoading]=useState<boolean>(true);
+  const [search,setSearch]=useState<string>("");
   async function handlerGetPosts(){
     try{
       setLoading(true);
@@ -53,18 +55,54 @@ const page = () => {
   const firstSetionRight=posts?.slice(1,3);
   const secondSection=posts?.slice(3,7);
   const thirdSection=posts?.slice(7,blogDisplayCount);
-
+  let foundBlog=null;
+  foundBlog=posts?.filter((value)=>value.title.toLowerCase().includes(search.toLowerCase()));
 console.log(blogDisplayCount);
 if(loading) return <CommonLoader></CommonLoader>
   return (
     <div className='wrapper w-full min-h-screen relative pb-44 pt-16 px-36'>
         <div className="blog-header mt-36 flex items-center justify-between mb-16">
           <div className="title text-4xl">All blogs</div>
-          <div className="search"><Search></Search></div>
+          <div className="search"><Search onSearch={setSearch}></Search></div>
         </div>
 
 
-        {/* section 1 */}
+      {
+        search.length>0 ? (
+                  <div className='wrapper w-full'>
+                     {
+                     foundBlog?.map((value)=>(
+                      <div className="blog grid grid-cols-5 h-fit gap-x-20 my-16" key={value._id}>
+                        <div className="left col-span-2 bg-sky-200 h-56 rounded-xl">
+                          <Image src={`${value.coverImage}`} alt='' height={800} width={1200} className='w-full h-full object-cover rounded-xl'></Image>
+                        </div>
+                        <div className="right col-span-3 bg-secondary px-5 py-3 rounded-xl">
+                          <Link href={`/blogs/${value._id}`}><div className="title text-2xl max-w-11/12">{value.title}</div></Link>
+                          <div className="aut-date flex justify-between mt-3">
+                            <div className="author px-3 py-1 bg-secondary rounded-full text-sm flex items-center gap-x-1">
+                                <div className="logo flex justify-center"><User size={".8rem"}></User></div>
+                                 {value?.authorName}
+                            </div>
+                            <div className="date px-3 py-1 bg-secondary rounded-full text-sm">
+                                 {
+                                   value && (
+                                  <div className="flex text-sm items-center gap-x-1">
+                                  <CalendarDays size={".8rem"} />
+                                  {format(new Date(value.createdAt),"PPP")}
+                              </div>
+                            )
+                                }
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                     ))
+                     }
+                  </div>
+                  ) :(
+                    <>
+                      
+{/* section 1 */}
         
         <div className="sec-2 grid grid-cols-6 gap-x-6 w-full h-fit">
                   <div className="left col-span-4">
@@ -148,8 +186,9 @@ if(loading) return <CommonLoader></CommonLoader>
            }
 
         </div>
-
-
+                    </>
+                  )
+      }
 
     </div>
   )
