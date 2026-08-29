@@ -4,6 +4,7 @@ import { verifyCurrentUser } from "@/lib/auth";
 import { Readable } from "stream";
 import cloudinary from "@/lib/cloudinary";
 import { dbConnection } from "@/dbConfig/Config";
+import { revalidateTag } from "next/cache";
 
 
 
@@ -68,6 +69,7 @@ export async function POST(request: NextRequest){
         tags
     })
 
+    revalidateTag("posts","max");
     // return the response now
     return NextResponse.json({msg:["Post successfully created"],post},{status:201});
     }

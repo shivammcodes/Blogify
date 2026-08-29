@@ -12,7 +12,7 @@ const getPosts=unstable_cache(
 
     },
     ["all-posts"],
-    {revalidate: 60}
+    {revalidate: 60,tags: ["posts"]}
 );
 
 export async function GET(){
