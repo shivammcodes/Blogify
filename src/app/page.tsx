@@ -87,7 +87,7 @@ const page = () => {
         <div className="sec-2 grid grid-cols-6 gap-x-6 w-full h-fit">
           <div className="left col-span-4">
             {secondSectionLeft && (
-               <div className="img w-full h-3/4 rounded-2xl"><Image className='object-cover rounded-2xl h-full w-full'width={1200} height={800} src={secondSectionLeft?.coverImage} alt=''></Image></div>
+               <div className="img w-full h-3/4 rounded-2xl object-cover"><Image className='object-cover rounded-2xl h-full w-full'width={1200} height={800} src={secondSectionLeft?.coverImage} alt=''></Image></div>
             )}
            <Link href={`/blogs/${secondSectionLeft?._id}`}> <div className="title mt-4 text-2xl">{secondSectionLeft?.title}</div></Link>
             <div className="date text-lg text-gray-900/60">
@@ -129,7 +129,7 @@ const page = () => {
           {
             thirdSection?.map(value=>(
             <div className="wrapper col-span-1 h-fit rounded-xl" key={value._id}>
-            <Image src={value.coverImage} alt='' className='max-h-80 w-full rounded-xl' height={800} width={1200}></Image>
+            <Image src={value.coverImage} alt='' className='max-h-80 w-full rounded-xl object-cover' height={800} width={1200}></Image>
             <Link href={`/blogs/${value._id}`}><div className="title text-xl mt-4 mb-2">{value.title}</div></Link>
             <div className="date text-gray-900/60">
             {

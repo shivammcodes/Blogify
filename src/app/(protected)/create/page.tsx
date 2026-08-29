@@ -3,6 +3,7 @@ import PublishLoader from "@/components/PublishLoader";
 import { useState } from "react";
 import TipTap from "@/components/editor/TipTap";
 import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 const CreatePost = () => {
   const [loading,setLoading]=useState<boolean>(false);
   const [title, setTitle] = useState("");
@@ -10,6 +11,7 @@ const CreatePost = () => {
   const [coverImage, setCoverImage] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>([]);
   const [tagInput, setTagInput] = useState("");
+  const router=useRouter();
 
   function handleCoverImage(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -73,7 +75,10 @@ function handleRemoveTag(tagToRemove: string) {
       return;
     }
 
-    toast.success(data.msg?.[0] || "Post created successfully");
+    else{
+      toast.success(data.msg?.[0] || "Post created successfully");
+      router.push('/');
+    }
 
   } catch (error) {
     console.log("Publish post failed:", error);

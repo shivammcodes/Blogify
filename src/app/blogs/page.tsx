@@ -111,7 +111,7 @@ if(loading) return <CommonLoader></CommonLoader>
           {
             secondSection?.map(value=>(
             <div className="wrapper col-span-1 h-fit rounded-xl" key={value._id}>
-            <Image src={value.coverImage} alt='' className='max-h-80 w-full rounded-xl' height={800} width={1200}></Image>
+            <Image src={value.coverImage} alt='' className='max-h-80 w-full rounded-xl object-cover' height={800} width={1200}></Image>
             <Link href={`/blogs/${value._id}`}><div className="title text-xl mt-4 mb-2">{value.title}</div></Link>
             <div className="date text-gray-900/60">
                 {
@@ -132,7 +132,7 @@ if(loading) return <CommonLoader></CommonLoader>
 
             {thirdSection?.map(value=>(
               <div className="box col-span-1 w-full h-fit" key={value._id}>
-                <Image src={value.coverImage} className='w-full max-h-46 rounded-xl' height={800} width={1200} alt=''></Image>
+                <Image src={value.coverImage} className='w-full max-h-46 rounded-xl object-cover' height={800} width={1200} alt=''></Image>
                 <Link href={`/blogs/${value._id}`}><div className="title pt-4 mb-1 text-xl">{value.title}</div></Link>
                 <div className="date text-gray-900/60">
                   {

@@ -122,9 +122,9 @@ const page =() => {
       </div>
            {/* Content */}
 
-      <div className="prose max-w-none mt-8" dangerouslySetInnerHTML={{  __html: post?.content ?? "" }}/>   
+      <div className="prose max-w-none mt-8 prose-headings:font-medium prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-p:text-base prose-p:leading-7 prose-p:my-3 prose-strong:font-semibold prose-blockquote:font-normal" dangerouslySetInnerHTML={{  __html: post?.content ?? "" }}/>   
       </div>
-      <div className="right col-span-1 sticky top-44 h-fit">
+      <div className="right col-span-1 sticky top-36 h-fit">
         <div className="tags">
           <div className="title mb-4 text-xl font-semibold">All Tags</div>
           <div className="flex flex-wrap gap-3">
