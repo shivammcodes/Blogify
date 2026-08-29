@@ -6,8 +6,8 @@ import Post from "@/model/Post";
 export async function GET(){
     try{
         await dbConnection();
-        const posts=await Post.find();
-        if(posts.length==0) return NextResponse.json({error:["No blogs are find create some"]},{status:400});
+        const posts=await Post.find().sort({createdAt :-1});
+        if(posts.length==0) return NextResponse.json({error:["No blogs are found create some"]},{status:400});
         // if found then return it
         return NextResponse.json({data:posts},{status:200});
     }

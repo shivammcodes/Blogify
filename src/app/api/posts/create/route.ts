@@ -24,7 +24,7 @@ export async function POST(request: NextRequest){
 
 
     // check if any field is null
-    if(!title || !content || !coverImage) return NextResponse.json({error:["All the fields are required"]},{status:400});
+    if(!title || !content || !coverImage || !tagsData) return NextResponse.json({error:["All the fields are required"]},{status:400});
 
     const tags = tagsData
     ? JSON.parse(tagsData as string)
