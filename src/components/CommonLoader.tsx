@@ -23,7 +23,7 @@ const CommonLoader = () => {
 
         {/* Main text */}
         <p className="mt-3 text-lg text-white/80">
-          Publishing your story
+          Publish your story
         </p>
 
         {/* Animated dots */}
