@@ -7,6 +7,7 @@ import { User,CalendarDays,X} from 'lucide-react';
 import Image from "next/image";
 import {Button} from "@/components/ui/button"
 import Link from "next/link";
+import { motion } from "framer-motion";
 import CommonLoader from "@/components/CommonLoader";
 type postContext={
   _id: string,
@@ -203,7 +204,7 @@ const page =() => {
 
       {/* summary div */}
       {isOpen ? (
-  <div className="summaryWindow fixed z-50 top-10 left-1/2 -translate-x-1/2 w-3/4 h-[85vh] bg-secondary border border-black rounded-2xl overflow-hidden shadow-2xl">
+  <motion.div drag dragMomentum={false} className="summaryWindow fixed z-50 top-10 left-1/2 -translate-x-1/2 w-3/4 h-[85vh] bg-background rounded-2xl overflow-hidden shadow-2xl border">
 
     {/* Close button */}
     <button
@@ -314,7 +315,7 @@ const page =() => {
       </div>
     )}
 
-  </div>
+  </motion.div>
 ) : null}
       
     </div>
