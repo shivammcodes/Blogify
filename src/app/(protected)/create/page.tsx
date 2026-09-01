@@ -55,6 +55,7 @@ const CreatePost = () => {
 
       // Create FormData
       const formData = new FormData();
+
       formData.append("title", title);
       formData.append("content", content);
       formData.append("coverImage", coverImage);
@@ -87,7 +88,7 @@ const CreatePost = () => {
     <>
       {loading && <PublishLoader />}
 
-      <main className="min-h-screen bg-gray-50 px-4 py-28 sm:px-6 sm:py-32 lg:px-8">
+      <main className="min-h-screen bg-gray-50 px-4 py-24 sm:px-6 sm:py-28 lg:px-8 lg:py-32">
         <div className="mx-auto w-full max-w-5xl">
 
           {/* Header */}
@@ -105,8 +106,10 @@ const CreatePost = () => {
             </p>
           </div>
 
+
           {/* Title */}
           <div className="mb-6 rounded-xl border bg-white p-4 shadow-sm sm:p-6">
+
             <label className="mb-2 block text-sm font-medium tracking-wide">
               Post Title
             </label>
@@ -118,21 +121,27 @@ const CreatePost = () => {
               placeholder="Enter your post title..."
               className="w-full border-none bg-transparent text-2xl font-medium tracking-tight outline-none placeholder:text-gray-300 sm:text-3xl"
             />
+
           </div>
+
 
           {/* Tags */}
           <div className="mb-6 rounded-xl border bg-white p-4 shadow-sm sm:p-6">
+
             <label className="mb-3 block text-sm font-medium tracking-wide">
               Tags
             </label>
 
             {/* Existing tags */}
             <div className="mb-3 flex flex-wrap gap-2">
+
               {tags.map((tag) => (
+
                 <div
                   key={tag}
                   className="flex items-center gap-2 rounded-full bg-gray-100 px-3 py-1.5 text-sm"
                 >
+
                   <span>#{tag}</span>
 
                   <button
@@ -142,8 +151,11 @@ const CreatePost = () => {
                   >
                     ×
                   </button>
+
                 </div>
+
               ))}
+
             </div>
 
             {/* Tag input */}
@@ -155,24 +167,30 @@ const CreatePost = () => {
               placeholder="Add a tag and press Enter..."
               className="w-full rounded-lg border px-4 py-3 text-sm tracking-wide outline-none transition focus:ring-2 focus:ring-gray-200 sm:text-base"
             />
+
           </div>
+
 
           {/* Cover Image */}
           <div className="mb-6 rounded-xl border bg-white p-4 shadow-sm sm:p-6">
+
             <label className="mb-3 block text-sm font-medium tracking-wide">
               Cover Image
             </label>
 
-            <label className="flex min-h-[220px] cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-4 transition hover:bg-gray-50 sm:min-h-[250px]">
+            <label className="flex min-h-[200px] cursor-pointer flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 p-4 transition hover:bg-gray-50 sm:min-h-[250px]">
+
               {coverImage ? (
+
                 <div className="flex w-full flex-col items-center">
+
                   <img
                     src={URL.createObjectURL(coverImage)}
                     alt="Cover preview"
-                    className="max-h-[250px] max-w-full rounded-lg object-contain"
+                    className="max-h-[220px] w-auto max-w-full rounded-lg object-contain sm:max-h-[250px]"
                   />
 
-                  <p className="mt-3 max-w-full truncate px-2 text-center font-medium">
+                  <p className="mt-3 max-w-full truncate px-2 text-center text-sm font-medium sm:text-base">
                     {coverImage.name}
                   </p>
 
@@ -191,8 +209,11 @@ const CreatePost = () => {
                   >
                     Remove Image
                   </button>
+
                 </div>
+
               ) : (
+
                 <>
                   <p className="text-base font-medium sm:text-lg">
                     Upload cover image
@@ -202,6 +223,7 @@ const CreatePost = () => {
                     PNG, JPG or WEBP
                   </p>
                 </>
+
               )}
 
               <input
@@ -210,20 +232,29 @@ const CreatePost = () => {
                 onChange={handleCoverImage}
                 className="hidden"
               />
+
             </label>
+
           </div>
+
 
           {/* Editor */}
           <div className="mb-8">
+
             <label className="mb-3 block text-sm font-medium tracking-wide">
               Content
             </label>
 
-            <TipTap onChange={setContent} />
+            <div className="w-full overflow-hidden">
+              <TipTap onChange={setContent} />
+            </div>
+
           </div>
+
 
           {/* Buttons */}
           <div className="flex flex-col gap-3 sm:flex-row sm:justify-end">
+
             <button
               type="button"
               className="w-full rounded-lg border bg-white px-6 py-3 font-medium tracking-wide transition hover:bg-gray-50 sm:w-auto"
@@ -239,7 +270,9 @@ const CreatePost = () => {
             >
               Publish Post
             </button>
+
           </div>
+
         </div>
       </main>
     </>

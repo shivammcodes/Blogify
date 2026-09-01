@@ -18,23 +18,33 @@ interface TipTapProps {
 const TipTap = ({ onChange }: TipTapProps) => {
   const editor = useEditor({
     immediatelyRender: false,
+
     extensions: [
       StarterKit,
+
       Underline,
+
       Link.configure({
         openOnClick: false,
       }),
+
       Image,
+
       TextAlign.configure({
         types: ["heading", "paragraph"],
       }),
+
       Highlight,
+
       Placeholder.configure({
         placeholder: "Start writing your amazing blog...",
       }),
+
       CharacterCount,
     ],
+
     content: "",
+
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
@@ -45,19 +55,25 @@ const TipTap = ({ onChange }: TipTapProps) => {
   }
 
   return (
-    <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
+    <div className="w-full overflow-hidden rounded-xl border bg-white shadow-sm">
 
       <EditorToolbar editor={editor} />
 
       <EditorContent
         editor={editor}
-        className="min-h-[400px] p-4 sm:min-h-[500px] sm:p-6"
+        className="min-h-[350px] p-3 sm:min-h-[400px] sm:p-4 md:min-h-[500px] md:p-6"
       />
 
-      <div className="flex justify-end border-t px-3 py-2 text-xs tracking-wide text-gray-500 sm:px-4 sm:text-sm">
-        {editor.storage.characterCount.characters()}
-        {" · "}
-        {editor.storage.characterCount.words()} words
+      <div className="flex flex-wrap justify-end gap-x-1 border-t px-3 py-2 text-xs tracking-wide text-gray-500 sm:px-4 sm:text-sm">
+        <span>
+          {editor.storage.characterCount.characters()}
+        </span>
+
+        <span>·</span>
+
+        <span>
+          {editor.storage.characterCount.words()} words
+        </span>
       </div>
 
     </div>

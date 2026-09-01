@@ -1,36 +1,38 @@
-import Link from "next/link"
-
-import { Button } from "@/components/ui/button"
-
-import { verifyCurrentUser } from "@/lib/auth"
-
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { verifyCurrentUser } from "@/lib/auth";
 import LogoutBtn from "./LogoutBtn";
+import MobileMenu from "@/components/MobileMenu";
 
 export const Header = async () => {
-
   const user = await verifyCurrentUser();
 
-  return (
-    <div className="wrapper fixed w-full top-8 px-4 sm:px-8 md:px-12 lg:px-20 xl:px-32 bg-transparent z-50">
+const plainUser = user
+  ? {
+      username: user.username,
+      _id: user._id.toString(),
+    }
+  : null;
 
-      <nav className="bg-secondary w-full py-3 sm:py-4 rounded-xl px-4 sm:px-6 flex items-center justify-between relative">
+  return (
+    <div className="wrapper fixed w-full top-14 px-3 sm:px-6 md:px-10 lg:px-16 xl:px-32 bg-transparent z-50">
+      <nav className="bg-secondary w-full py-4 rounded-xl px-4 sm:px-6 flex items-center justify-between relative">
 
         {/* Logo */}
         <Link
-          className="text-2xl sm:text-3xl font-semibold font-heading tracking-[0.01em]"
+          className="text-2xl sm:text-3xl font-semibold"
           href="/"
         >
           Blogify
         </Link>
 
         {/* Desktop Navigation */}
-        <div className="content hidden md:flex gap-x-2 lg:gap-x-3 items-center text-lg absolute left-1/2 -translate-x-1/2">
-
+        <div className="content hidden md:flex gap-x-3 items-center text-lg absolute left-1/2 -translate-x-1/2">
           <Link href="/">
             <Button
               variant="secondary"
               size="lg"
-              className="rounded-2xl px-3 lg:px-4 text-xs lg:text-sm py-4"
+              className="rounded-2xl px-4 text-sm py-4"
             >
               Home
             </Button>
@@ -40,7 +42,7 @@ export const Header = async () => {
             <Button
               variant="secondary"
               size="lg"
-              className="rounded-2xl px-3 lg:px-4 text-xs lg:text-sm py-4"
+              className="rounded-2xl px-4 text-sm py-4"
             >
               Blogs
             </Button>
@@ -50,120 +52,80 @@ export const Header = async () => {
             <Button
               variant="secondary"
               size="lg"
-              className="rounded-2xl px-3 lg:px-4 text-xs lg:text-sm py-4"
+              className="rounded-2xl px-4 text-sm py-4"
             >
               About
             </Button>
           </Link>
-
         </div>
 
-        {/* Auth */}
-        <div className="auth flex gap-x-2 sm:gap-x-3 lg:gap-x-5 items-center">
-
-          {
-            user ? (
-
-              <>
-                {/* Create Post */}
-                <Link
-                  href="/create"
-                  className="hidden sm:flex items-center justify-center"
-                >
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    className="rounded-2xl px-3 lg:px-4 text-xs lg:text-sm py-4"
-                  >
-                    Create Post
-                  </Button>
-                </Link>
-
-                {/* Welcome */}
+        {/* Desktop Auth */}
+        <div className="auth hidden md:flex gap-x-5 items-center">
+          {user ? (
+            <>
+              <Link
+                href="/create"
+                className="flex items-center justify-center"
+              >
                 <Button
                   variant="secondary"
                   size="lg"
-                  className="rounded-2xl hover:bg-transparent px-3 lg:px-4 text-xs lg:text-sm py-4 flex items-center justify-center"
+                  className="rounded-2xl px-4 text-sm py-4"
                 >
-                  <span className="hidden sm:inline">
-                    Welcome, {user.username.split(" ")[0]}
-                  </span>
-
-                  <span className="sm:hidden">
-                    {user.username.split(" ")[0]}
-                  </span>
+                  Create Post
                 </Button>
+              </Link>
 
-                <LogoutBtn />
-              </>
+              <Button
+                variant="secondary"
+                size="lg"
+                className="rounded-2xl hover:bg-transparent px-4 text-sm py-4 flex items-center justify-center"
+              >
+                Welcome, {user.username.split(" ")[0]}
+              </Button>
 
-            ) : (
-
-              <>
-                {/* Login */}
-                <Link
-                  href="/login"
-                  className="flex items-center justify-center"
+              <LogoutBtn />
+            </>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="flex items-center justify-center"
+              >
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  className="rounded-2xl px-4 text-sm py-4"
                 >
-                  <Button
-                    variant="secondary"
-                    size="lg"
-                    className="rounded-2xl px-3 lg:px-4 text-xs lg:text-sm py-4"
-                  >
-                    Log in
-                  </Button>
-                </Link>
+                  Log in
+                </Button>
+              </Link>
 
-                {/* Sign Up */}
-                <Link
-                  href="/signup"
-                  className="flex items-center justify-center"
+              <Link
+                href="/signup"
+                className="flex items-center justify-center"
+              >
+                <Button
+                  variant="default"
+                  size="lg"
+                  className="rounded-lg px-4 text-sm py-5"
                 >
-                  <Button
-                    variant="default"
-                    size="lg"
-                    className="rounded-lg px-3 lg:px-4 text-xs lg:text-sm py-5"
-                  >
-                    Sign Up
-                  </Button>
-                </Link>
-              </>
+                  Sign Up
+                </Button>
+              </Link>
+            </>
+          )}
+        </div>
 
-            )
-          }
-
+        {/* Mobile Hamburger */}
+        <div className="md:hidden">
+          <MobileMenu user={plainUser} />
         </div>
 
       </nav>
-
     </div>
-  )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  );
+};
 
 
 

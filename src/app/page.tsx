@@ -18,23 +18,17 @@ import CommonLoader from '@/components/CommonLoader';
 
 import { User,CalendarDays } from 'lucide-react';
 
+
 type postContext={
-
   _id: string,
-
   title: string,
-
   authorId: string,
-
   authorName: string,
-
   coverImage: string,
-
   content: string,
-
   createdAt: string
-
 }
+
 
 const page = () => {
 
@@ -45,6 +39,7 @@ const page = () => {
   const [search,setSearch]=useState<string>("");
 
   let foundBlog=null;
+
 
   async function handlerGetPosts(){
 
@@ -76,13 +71,16 @@ const page = () => {
 
   }
 
+
   useEffect(()=>{
 
     handlerGetPosts();
 
   },[])
 
+
   console.log(posts);
+
 
   const firstSection=posts?.[0];
 
@@ -94,15 +92,17 @@ const page = () => {
 
   foundBlog=posts?.filter((value)=>value.title.toLowerCase().includes(search.toLowerCase()));
 
+
   if(loading) return <CommonLoader></CommonLoader>
+
 
   return (
 
-    <div className='wrapper w-full min-h-screen relative pb-32 sm:pb-40 lg:pb-56 pt-28 sm:pt-32 lg:pt-44 px-5 sm:px-8 md:px-12 lg:px-20 xl:px-36 font-sans'>
+    <div className='wrapper w-full min-h-screen relative pb-32 sm:pb-40 lg:pb-56 pt-28 sm:pt-32 lg:pt-44 px-4 sm:px-6 md:px-10 lg:px-16 xl:px-36 font-sans'>
 
       {/* HERO SECTION */}
 
-      <div className="top h-fit flex flex-col lg:flex-row justify-between gap-10 lg:gap-x-20 xl:gap-x-40">
+      <div className="top h-fit flex flex-col lg:flex-row justify-between gap-8 sm:gap-10 lg:gap-x-16 xl:gap-x-40">
 
         <div className="left w-full lg:w-1/2 flex flex-col justify-center">
 
@@ -144,12 +144,13 @@ const page = () => {
 
         </div>
 
+
         {firstSection &&(
 
           <div className="right w-full lg:w-1/2 flex items-center justify-center rounded-lg">
 
             <Image
-              className='rounded-lg w-full h-64 sm:h-80 lg:h-[28rem] object-cover'
+              className='rounded-lg w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] object-cover'
               width={1200}
               height={800}
               src={firstSection?.coverImage}
@@ -163,9 +164,10 @@ const page = () => {
       </div>
 
 
+
       {/* BLOG HEADER */}
 
-      <div className="blog-header mt-24 sm:mt-28 lg:mt-36 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mb-10 sm:mb-16">
+      <div className="blog-header mt-20 sm:mt-28 lg:mt-36 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5 mb-10 sm:mb-16">
 
         <div className="title text-3xl sm:text-4xl font-heading">
 
@@ -182,6 +184,7 @@ const page = () => {
       </div>
 
 
+
       {
 
         search.length>0 ? (
@@ -193,7 +196,7 @@ const page = () => {
               foundBlog?.map((value)=>(
 
                 <div
-                  className="blog grid grid-cols-1 lg:grid-cols-5 h-fit gap-6 lg:gap-x-12 xl:gap-x-20 my-10 lg:my-16"
+                  className="blog grid grid-cols-1 lg:grid-cols-5 h-fit gap-5 sm:gap-6 lg:gap-x-12 xl:gap-x-20 my-8 sm:my-10 lg:my-16"
                   key={value._id}
                 >
 
@@ -209,11 +212,12 @@ const page = () => {
 
                   </div>
 
-                  <div className="right col-span-1 lg:col-span-3 bg-secondary px-5 py-4 rounded-xl flex flex-col justify-between">
+
+                  <div className="right col-span-1 lg:col-span-3 bg-secondary px-4 sm:px-5 py-4 rounded-xl flex flex-col justify-between min-w-0">
 
                     <Link href={`/blogs/${value._id}`}>
 
-                      <div className="title text-xl sm:text-2xl max-w-full lg:max-w-11/12 font-heading">
+                      <div className="title text-xl sm:text-2xl max-w-full lg:max-w-11/12 font-heading break-words">
 
                         {value.title}
 
@@ -221,9 +225,10 @@ const page = () => {
 
                     </Link>
 
+
                     <div className="aut-date flex flex-col sm:flex-row justify-between gap-3 mt-5">
 
-                      <div className="author w-fit px-3 py-1 bg-secondary rounded-full text-sm flex items-center gap-x-1 font-sans">
+                      <div className="author w-fit max-w-full px-3 py-1 bg-secondary rounded-full text-sm flex items-center gap-x-1 font-sans">
 
                         <div className="logo flex justify-center">
 
@@ -231,9 +236,14 @@ const page = () => {
 
                         </div>
 
-                        {value?.authorName}
+                        <span className="truncate">
+
+                          {value?.authorName}
+
+                        </span>
 
                       </div>
+
 
                       <div className="date w-fit px-3 py-1 bg-secondary rounded-full text-sm font-sans">
 
@@ -277,11 +287,11 @@ const page = () => {
 
               {/* LEFT */}
 
-              <div className="left col-span-1 lg:col-span-4">
+              <div className="left col-span-1 lg:col-span-4 min-w-0">
 
                 {secondSectionLeft && (
 
-                  <div className="img w-full h-64 sm:h-80 lg:h-[28rem] rounded-2xl object-cover">
+                  <div className="img w-full h-64 sm:h-80 md:h-96 lg:h-[28rem] rounded-2xl object-cover">
 
                     <Image
                       className='object-cover rounded-2xl h-full w-full'
@@ -295,15 +305,17 @@ const page = () => {
 
                 )}
 
+
                 <Link href={`/blogs/${secondSectionLeft?._id}`}>
 
-                  <div className="title mt-4 text-xl sm:text-2xl lg:text-3xl font-heading">
+                  <div className="title mt-4 text-xl sm:text-2xl lg:text-3xl font-heading break-words">
 
                     {secondSectionLeft?.title}
 
                   </div>
 
                 </Link>
+
 
                 <div className="date text-sm sm:text-lg text-gray-900/60 font-sans">
 
@@ -322,6 +334,7 @@ const page = () => {
               </div>
 
 
+
               {/* RIGHT */}
 
               <div className="right col-span-1 lg:col-span-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-8 lg:gap-y-10 px-0 lg:px-10">
@@ -330,7 +343,7 @@ const page = () => {
 
                   SecondSetionRight?.map(value=>(
 
-                    <div className="up" key={value._id}>
+                    <div className="up min-w-0" key={value._id}>
 
                       <div className="img h-fit w-full rounded-2xl">
 
@@ -339,20 +352,22 @@ const page = () => {
                           alt=''
                           width={1200}
                           height={800}
-                          className='h-48 sm:h-40 object-cover w-full rounded-2xl'
+                          className='h-48 sm:h-40 md:h-48 object-cover w-full rounded-2xl'
                         />
 
                       </div>
 
+
                       <Link href={`/blogs/${value._id}`}>
 
-                        <div className="title mt-4 mb-1 max-w-full text-lg sm:text-xl font-heading">
+                        <div className="title mt-4 mb-1 max-w-full text-lg sm:text-xl font-heading break-words">
 
                           {value.title}
 
                         </div>
 
                       </Link>
+
 
                       <div className="date text-gray-900/60 text-sm font-sans">
 
@@ -375,6 +390,7 @@ const page = () => {
             </div>
 
 
+
             {/* SECTION 3 */}
 
             <div className="blogs relative grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-x-10 lg:gap-x-16 gap-y-10 mt-16 lg:mt-20">
@@ -383,7 +399,7 @@ const page = () => {
 
                 thirdSection?.map(value=>(
 
-                  <div className="wrapper col-span-1 h-fit rounded-xl" key={value._id}>
+                  <div className="wrapper col-span-1 h-fit rounded-xl min-w-0" key={value._id}>
 
                     <Image
                       src={value.coverImage}
@@ -393,15 +409,17 @@ const page = () => {
                       width={1200}
                     />
 
+
                     <Link href={`/blogs/${value._id}`}>
 
-                      <div className="title text-lg sm:text-xl mt-4 mb-2 font-heading">
+                      <div className="title text-lg sm:text-xl mt-4 mb-2 font-heading break-words">
 
                         {value.title}
 
                       </div>
 
                     </Link>
+
 
                     <div className="date text-gray-900/60 text-sm font-sans">
 
@@ -418,6 +436,7 @@ const page = () => {
                 ))
 
               }
+
 
               <Button
                 className="relative md:absolute left-1/2 -translate-x-1/2 mt-5 md:mt-0 md:-bottom-24 px-7 rounded-xl text-base sm:text-lg py-5 sm:py-6 bg-transparent border-black/30 text-black/50 font-sans"
@@ -447,7 +466,6 @@ const page = () => {
 }
 
 export default page
-
 
 
 

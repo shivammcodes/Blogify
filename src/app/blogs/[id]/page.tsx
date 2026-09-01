@@ -1,5 +1,4 @@
-"use client"
-
+"use client";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
@@ -40,10 +39,13 @@ const page = () => {
   const [summaryFetched, setSummaryFetched] = useState<boolean>(false);
   const [summaryLoader, setSummaryLoader] = useState<boolean>(false);
 
+
   // async function to get all the posts
 
   async function handlerGetPosts() {
+
     try {
+
       const response = await fetch("/api/posts", {
         method: "GET",
       })
@@ -56,16 +58,21 @@ const page = () => {
       else {
         setPosts(data.data);
       }
+
     }
     catch (error) {
       console.log("Cant get the posts :", error);
     }
+
   }
+
 
   // async function to get the post
 
   async function handlerGetPost() {
+
     try {
+
       const response = await fetch(`/api/posts/${id}`);
       const data = await response.json();
 
@@ -76,16 +83,21 @@ const page = () => {
       else {
         setPost(data.data);
       }
+
     }
     catch (error) {
       console.log("Something went wrong :", error);
     }
+
   }
+
 
   // handler to take care of posts
 
   async function handlerSummarizePost() {
+
     try {
+
       setIsOpen(true);
 
       if (summaryFetched) return;
@@ -109,6 +121,7 @@ const page = () => {
         setTakeaway(data.data.takeaway);
         setSummaryFetched(true);
       }
+
     }
     catch (error) {
       toast.error("Something went wrong try again");
@@ -116,10 +129,14 @@ const page = () => {
     finally {
       setSummaryLoader(false);
     }
+
   }
 
+
   useEffect(() => {
+
     const loadData = async () => {
+
       setLoading(true);
 
       await Promise.all([
@@ -128,10 +145,13 @@ const page = () => {
       ]);
 
       setLoading(false);
+
     };
 
     loadData();
+
   }, [id]);
+
 
   const tags = post?.tags;
 
@@ -139,14 +159,18 @@ const page = () => {
     ?.filter(value => value._id !== post?._id)
     .slice(0, 3);
 
+
   if (loading) return <CommonLoader />
 
+
   return (
-    <div className="wrapper w-full min-h-screen relative pb-56 pt-32 sm:pt-40 lg:pt-44 px-5 sm:px-8 md:px-12 lg:pl-36 lg:pr-16">
+
+    <div className="wrapper w-full min-h-screen relative pb-40 sm:pb-48 lg:pb-56 pt-28 sm:pt-32 lg:pt-44 px-4 sm:px-6 md:px-10 lg:pl-16 lg:pr-10 xl:pl-36 xl:pr-16">
 
       {/* Main layout */}
 
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-10 lg:gap-x-16 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-12 lg:gap-x-16 items-start">
+
 
         {/* Article */}
 
@@ -154,37 +178,51 @@ const page = () => {
 
           {/* Title */}
 
-          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display tracking-tight leading-tight">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display tracking-tight leading-tight break-words">
             {post?.title}
           </h1>
+
 
           {/* Author + Date */}
 
           <div className="author-data flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 w-full mt-5">
 
-            <div className="author w-fit px-3 py-1 bg-[#efe8de] rounded-full text-sm flex items-center gap-x-1">
+            <div className="author w-fit max-w-full px-3 py-1 bg-[#efe8de] rounded-full text-sm flex items-center gap-x-1">
+
               <User size=".8rem" />
-              {post?.authorName}
+
+              <span className="truncate">
+                {post?.authorName}
+              </span>
+
             </div>
+
 
             <div className="date w-fit px-3 py-1 bg-[#efe8de] rounded-full text-sm">
 
               {post && (
+
                 <div className="flex text-sm items-center gap-x-1">
+
                   <CalendarDays size=".8rem" />
+
                   {format(new Date(post.createdAt), "PPP")}
+
                 </div>
+
               )}
 
             </div>
 
           </div>
 
+
           {/* Image */}
 
-          <div className="image w-full h-56 sm:h-72 md:h-96 mt-7 rounded-2xl overflow-hidden">
+          <div className="image w-full h-56 sm:h-72 md:h-96 lg:h-[28rem] mt-7 rounded-2xl overflow-hidden">
 
             {post && (
+
               <Image
                 src={post.coverImage}
                 className="w-full h-full rounded-2xl object-cover"
@@ -192,9 +230,11 @@ const page = () => {
                 width={1200}
                 alt=""
               />
+
             )}
 
           </div>
+
 
           {/* Content */}
 
@@ -203,15 +243,22 @@ const page = () => {
               prose max-w-none mt-8
               prose-headings:font-display
               prose-headings:tracking-tight
-              prose-h1:text-3xl
-              prose-h2:text-2xl
-              prose-h3:text-xl
+              prose-h1:text-2xl
+              sm:prose-h1:text-3xl
+              prose-h2:text-xl
+              sm:prose-h2:text-2xl
+              prose-h3:text-lg
+              sm:prose-h3:text-xl
               prose-p:font-inter
               prose-p:text-base
               prose-p:leading-7
               prose-p:my-3
               prose-strong:font-semibold
               prose-blockquote:font-normal
+              prose-img:max-w-full
+              prose-img:h-auto
+              prose-pre:max-w-full
+              prose-pre:overflow-x-auto
             "
             dangerouslySetInnerHTML={{
               __html: post?.content ?? ""
@@ -219,6 +266,7 @@ const page = () => {
           />
 
         </div>
+
 
         {/* Sidebar */}
 
@@ -232,24 +280,27 @@ const page = () => {
               All Tags
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2.5">
 
               {tags?.map(value => (
+
                 <div
                   key={value}
                   className="rounded-full bg-[#efe8de] px-3 py-1 text-sm text-gray-700 shadow-sm font-inter"
                 >
                   {value}
                 </div>
+
               ))}
 
             </div>
 
           </div>
 
+
           {/* More Blogs */}
 
-          <div className="posts w-full bg-secondary py-4 px-3 mt-5 rounded-xl">
+          <div className="posts w-full bg-secondary py-4 px-3 mt-6 rounded-xl">
 
             <div className="title font-display text-xl">
               More Blogs
@@ -276,15 +327,21 @@ const page = () => {
 
                   </div>
 
-                  <div className="right col-span-3 ml-2">
+
+                  <div className="right col-span-3 ml-2 min-w-0">
 
                     <div className="date flex text-xs items-center gap-x-2 font-inter">
+
                       <CalendarDays size=".8rem" />
+
                       {format(new Date(value.createdAt), "PP")}
+
                     </div>
 
-                    <div className="title text-sm font-heading mt-1 leading-snug">
+                    <div className="title text-sm font-heading mt-1 leading-snug line-clamp-2">
+
                       {value.title}
+
                     </div>
 
                   </div>
@@ -301,6 +358,7 @@ const page = () => {
 
       </div>
 
+
       {/* Summarize button */}
 
       <Button
@@ -308,18 +366,22 @@ const page = () => {
         variant="default"
         className="
           summarize
-          fixed sm:absolute
-          bottom-6 sm:bottom-20
+          fixed
+          bottom-4 sm:bottom-6 lg:absolute lg:bottom-20
           left-1/2
           -translate-x-1/2
-          p-3
+          px-4 sm:px-5
+          py-3
           rounded-xl
           z-40
+          text-sm sm:text-base
+          whitespace-nowrap
         "
         onClick={handlerSummarizePost}
       >
         Summarize Post
       </Button>
+
 
       {/* Summary Window */}
 
@@ -332,13 +394,17 @@ const page = () => {
             summaryWindow
             fixed
             z-50
-            top-5 sm:top-10
+            top-3 sm:top-5 lg:top-10
             left-1/2
             -translate-x-1/2
-            w-[94vw] sm:w-[88vw] lg:w-3/4
-            h-[90vh] sm:h-[85vh]
+            w-[calc(100%-1rem)]
+            sm:w-[90vw]
+            lg:w-3/4
+            h-[94vh]
+            sm:h-[90vh]
+            lg:h-[85vh]
             bg-background
-            rounded-2xl
+            rounded-xl sm:rounded-2xl
             overflow-hidden
             shadow-2xl
             border
@@ -364,6 +430,7 @@ const page = () => {
             <X size={20} />
           </button>
 
+
           {/* Content / Loader */}
 
           {summaryLoader ? (
@@ -374,16 +441,18 @@ const page = () => {
 
           ) : (
 
-            <div className="content w-full h-full overflow-y-auto p-5 sm:p-8 md:p-10">
+            <div className="content w-full h-full overflow-y-auto p-4 sm:p-6 md:p-8 lg:p-10">
 
               {!summary && keyPoints.length === 0 && !takeaway ? (
 
                 /* Error state */
 
-                <div className="flex min-h-full flex-col items-center justify-center text-center">
+                <div className="flex min-h-full flex-col items-center justify-center text-center px-4">
 
                   <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100">
+
                     <X className="h-8 w-8 text-red-500" />
+
                   </div>
 
                   <h2 className="text-2xl sm:text-3xl font-display tracking-tight">
@@ -405,13 +474,13 @@ const page = () => {
 
                   {/* Header */}
 
-                  <div className="mb-8">
+                  <div className="mb-6 sm:mb-8 pr-8">
 
-                    <p className="text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground font-inter">
+                    <p className="text-xs sm:text-sm font-medium uppercase tracking-[0.2em] text-muted-foreground font-inter">
                       AI Summary
                     </p>
 
-                    <h2 className="mt-2 text-3xl sm:text-4xl font-display tracking-tight">
+                    <h2 className="mt-2 text-2xl sm:text-3xl lg:text-4xl font-display tracking-tight">
                       A quick look at this blog
                     </h2>
 
@@ -421,9 +490,10 @@ const page = () => {
 
                   </div>
 
+
                   {/* Summary */}
 
-                  <div className="rounded-2xl border bg-background p-5 sm:p-6 shadow-sm">
+                  <div className="rounded-2xl border bg-background p-4 sm:p-6 shadow-sm">
 
                     <h3 className="mb-4 text-lg sm:text-xl font-display">
                       Summary
@@ -435,9 +505,10 @@ const page = () => {
 
                   </div>
 
+
                   {/* Key Points */}
 
-                  <div className="mt-6 rounded-2xl border bg-background p-5 sm:p-6 shadow-sm">
+                  <div className="mt-5 sm:mt-6 rounded-2xl border bg-background p-4 sm:p-6 shadow-sm">
 
                     <h3 className="mb-5 text-lg sm:text-xl font-display">
                       Key Points
@@ -449,27 +520,29 @@ const page = () => {
 
                         <div
                           key={index}
-                          className="flex gap-4"
+                          className="flex gap-3 sm:gap-4"
                         >
 
-                          <div className="
-                            flex
-                            h-7
-                            w-7
-                            shrink-0
-                            items-center
-                            justify-center
-                            rounded-full
-                            bg-primary
-                            text-xs
-                            font-semibold
-                            text-primary-foreground
-                            font-inter
-                          ">
+                          <div
+                            className="
+                              flex
+                              h-7
+                              w-7
+                              shrink-0
+                              items-center
+                              justify-center
+                              rounded-full
+                              bg-primary
+                              text-xs
+                              font-semibold
+                              text-primary-foreground
+                              font-inter
+                            "
+                          >
                             {index + 1}
                           </div>
 
-                          <p className="text-[15px] leading-6 text-muted-foreground font-inter">
+                          <p className="text-[15px] leading-6 text-muted-foreground font-inter min-w-0">
                             {point}
                           </p>
 
@@ -481,16 +554,19 @@ const page = () => {
 
                   </div>
 
+
                   {/* Takeaway */}
 
-                  <div className="
-                    mt-6
-                    rounded-2xl
-                    border
-                    border-primary/20
-                    bg-primary/5
-                    p-5 sm:p-6
-                  ">
+                  <div
+                    className="
+                      mt-5 sm:mt-6
+                      rounded-2xl
+                      border
+                      border-primary/20
+                      bg-primary/5
+                      p-4 sm:p-6
+                    "
+                  >
 
                     <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-primary font-inter">
                       The Takeaway
@@ -515,10 +591,11 @@ const page = () => {
       ) : null}
 
     </div>
+
   )
 }
 
-export default page
+export default page;
 
 
 
