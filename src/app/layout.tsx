@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import {  DM_Serif_Display,Inter} from "next/font/google";
+import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import {Header} from "@/components/header";
 import { cn } from "@/lib/utils";
@@ -17,12 +17,10 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
-const dmSerif = DM_Serif_Display({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: "400",
   variable: "--font-serif",
 });
-
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -33,7 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={cn("h-full", "antialiased",inter.variable,dmSerif.variable)}
+      className={cn("h-full","antialiased",inter.variable,playfair.variable)}
     >
       <body className="min-h-full flex flex-col relative bg-[#ffffff] font-inter">
         <Toaster></Toaster>
